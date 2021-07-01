@@ -25,7 +25,7 @@ To run create image on port 8080 we use below command. Parameter -p means port, 
     docker run -p 8080:8080 springsbs
 ```
 
-##How stop container
+## How stop container
 
 If we want stop container we must use second terminal and use there stop command.
 
@@ -34,7 +34,7 @@ If we want stop container we must use second terminal and use there stop command
     docker stop <few first chas from CONTAINER ID>
 ```
 
-##Remove container
+## Remove container
 
 If we want remove stopped container we must display all containers (first command) and then use rm parameter.
 
@@ -43,7 +43,7 @@ If we want remove stopped container we must display all containers (first comman
     docker rm <few first chas from CONTAINER ID>
 ```
 
-##Other options
+## Other options
 
 Parameter -it run container in an interactive mode, is possible use ctrl+c to stop container.
 
