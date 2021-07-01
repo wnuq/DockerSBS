@@ -1,5 +1,10 @@
 # Docker Spring Boot Sample
 
+## Documentation
+
+* [How  run image](#how-run-image) 
+* [Other options](#other-options) 
+
 ## How run image
 
 To build Docker image from Dockerfile use below command. Option -t allow adding own tag name from the image. Dot at the end of command means that Docker will try find Dockerfile in a current folder.
@@ -22,7 +27,7 @@ To run create image on port 8080 we use below command. Parameter -p means port, 
 
 ##How stop container
 
-If we want stop container we must use second terminal in this case and use stop command.
+If we want stop container we must use second terminal and use there stop command.
 
 ```
     docker ps
@@ -40,17 +45,28 @@ If we want remove stopped container we must display all containers (first comman
 
 ##Other options
 
-Parameter -d (must be before 'p' responsible for port binding), detach logs from terminal and create possibility to do some other actions after run container in one terminal. 
-
-```
-    docker run -dp 8080:8080 springsbs
-```
-
 Parameter -it run container in an interactive mode, is possible use ctrl+c to stop container.
 
 ```
     docker run -it -p 8080:8080 springsbs
 ```
 
-//TODO: How join to logs if use -d
+Parameter -d (must be before 'p' responsible for port binding), detach logs from terminal and create possibility to do some other actions after run container in one terminal. 
+
+```
+    docker run -dp 8080:8080 springsbs
+```
+
+If we detach from running container, and we want see logs from there we can use below command. If we add -f parameter then we will stay connected, and we will see all new logs.
+
+```
+    docker logs <CONTAINER ID>
+    docker logs <CONTAINER ID> -f
+```
+
+Below command works only for an image where we have linux system. We can use this when we want connect to system and do some actions in the container.
+
+```
+    docker exec -it <CONTAINER ID> /bin/bash
+```
 
