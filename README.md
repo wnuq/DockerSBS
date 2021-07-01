@@ -1,11 +1,14 @@
+![Spring Boot + Docker](src/main/resources/static/docker-spring.png)
 # Docker Spring Boot Sample
 
 ## Documentation
 
-* [How  run image](#how-run-image) 
+* [How build and run image](#how-build-and-run-image) 
+* [How stop container](#how-stop-container)
+* [Remove container](#remove-container)
 * [Other options](#other-options) 
 
-## How run image
+## How build and run image
 
 To build Docker image from Dockerfile use below command. Option -t allow adding own tag name from the image. Dot at the end of command means that Docker will try find Dockerfile in a current folder.
 
