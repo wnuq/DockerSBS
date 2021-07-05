@@ -6,7 +6,10 @@
 * [How build and run image](#how-build-and-run-image) 
 * [How stop container](#how-stop-container)
 * [Remove container](#remove-container)
-* [Other options](#other-options) 
+* [Dockerfile](#dockerfile)
+* [Docker compose](#docker-compose-file)
+* [Run project by Docker Compose](#run-project-by-docker-compose)
+* [Additional commands](#additional-commands) 
 
 ## How build and run image
 
@@ -19,7 +22,7 @@ To build Docker image from Dockerfile use below command. Option -t allow adding 
 Then we can check that image was created. We use image command to display all created images.
 
 ```
-    docker image ls
+    docker images
 ```
 
 To run create image on port 8080 we use below command. Parameter -p means port, value before ':' is a target host port. If we skip this parameter, then we lose possibility to get access to application by http. We must map container port to host port, even if they are the same.
@@ -46,7 +49,55 @@ If we want remove stopped container we must display all containers (first comman
     docker rm <few first chas from CONTAINER ID>
 ```
 
-## Other options
+## Dockerfile
+
+* Line 1: The FROM instruction initializes a new build stage and sets the Base Image for subsequent instructions.
+* Line 2: The RUN instruction will execute any commands in a new layer on top of the current image and commit the results. The resulting committed image will be used for the next step in the Dockerfile.
+* Line 3: Set user and group (in this case we set up it for Spring in last step).
+* Line 4: ARG instruction defines a variable that users can pass at build-time to the builder with the docker build command using the --build-arg <varname>=<value> flag. If a user specifies a build argument that was not defined in the Dockerfile, the build outputs a warning.
+* Line 5: The COPY instruction copies new files or directories from src and adds them to the filesystem of the container at the path dest. (COPY src dest)
+* Line 6: An ENTRYPOINT allows you to configure a container that will run as an executable. (ENTRYPOINT command param1 param2)
+
+```Dockerfile
+    FROM openjdk:8-jdk-alpine
+    RUN addgroup -S spring && adduser -S spring -G spring
+    USER spring:spring
+    ARG JAR_FILE=target/*.jar
+    COPY ${JAR_FILE} app.jar
+    ENTRYPOINT ["java","-jar","/app.jar"]
+```
+
+## Docker Compose file
+
+In that case we use a docker compose in the third version. We use existing dockerfile to run image.
+
+```yaml
+    version: "3"
+    
+    services:
+      spring:
+        ports:
+          - "8080:8080"
+        build:
+          context: ./
+          dockerfile: Dockerfile
+```
+
+## Run project by Docker Compose
+
+To run this image we will use below command.
+
+```bash
+    docker-compose up
+```
+
+Everytime when we will use docker compose command to run app, docker will use the existing image and container, to rebuild that we should use below command.
+
+```bash
+    docker-compose up --build
+```
+
+## Additional commands
 
 Parameter -it run container in an interactive mode, is possible use ctrl+c to stop container.
 
@@ -73,3 +124,8 @@ Below command works only for an image where we have linux system. We can use thi
     docker exec -it <CONTAINER ID> /bin/bash
 ```
 
+Remove unused images.
+
+```
+    docker image prune -a
+```
