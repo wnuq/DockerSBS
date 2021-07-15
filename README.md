@@ -39,12 +39,10 @@ To run this image we will use below command.
 Everytime when we will use docker compose command to run app, docker will use the existing image and container, to rebuild that we should use below command.
 
 ```bash
-    docker-compose up build
-```
-or 
-```bash
     docker-compose up --build
 ```
+
+This solution not always work properly 
 
 ## How build and run single image
 
@@ -101,7 +99,7 @@ If we want delete one of them then we can use
 If we want remove not used images then better will be next command.
 
 ```
-    docker image prune -a
+    docker image prune -a 
 ```
 
 ## Dockerfile
