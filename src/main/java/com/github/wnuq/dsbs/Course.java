@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.io.File;
 
 @Entity
 public class Course {
@@ -46,7 +47,7 @@ public class Course {
     }
 
     public String getUrlToCover() {
-        return urlToCover;
+        return id + urlToCover;
     }
 
     public void setUrlToCover(String urlToCover) {

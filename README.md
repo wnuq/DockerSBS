@@ -3,8 +3,9 @@
 
 ## Documentation
 
-* [Docker compose](#docker-compose-file)
 * [Run project by Docker Compose](#run-project-by-docker-compose)
+* [Rebuild project with Docker Compose](#rebuild-project-with-docker-compose)
+* [Docker compose](#docker-compose-file)
 * [How build and run image](#how-build-and-run-single-image) 
 * [How stop container](#how-stop-container)
 * [Remove container](#remove-container)
@@ -12,9 +13,43 @@
 * [Dockerfile](#dockerfile)
 * [Additional commands](#additional-commands) 
 
+
+## Run project by Docker Compose
+
+If we run our images first time, we must start from create jar file for Spring Boot app.
+
+```bash
+    mvn clean verify
+```
+
+To run our images we will use below command.
+
+```bash
+    docker-compose up
+```
+
+## Rebuild project with Docker Compose
+
+Everytime when we will use docker compose command to run app, docker will use the existing image and container, to rebuild that we should use below command.
+
+```bash
+    mvn clean verify
+
+    docker-compose up --build
+```
+
+We can also use alternative approach, with a divide it on smaller steps.
+
+```bash
+    mvn clean verify
+
+    docker-compose build
+    docker-compose up
+```
+
 ## Docker Compose file
 
-In that case we use a docker compose in the third version. We use existing dockerfile to run image.
+In that case we use a docker compose in the third version. We configure two images. First is Spring Boot with database configuration. Second is Postgres image from Docker hub. Spring Boot image is create from jar file, because of that we must use mvn clean verify after changes in code. 
 
 ```yaml
     version: "3"
@@ -26,23 +61,21 @@ In that case we use a docker compose in the third version. We use existing docke
         build:
           context: ./
           dockerfile: Dockerfile
+        container_name: spring
+        depends_on:
+          - db
+        environment:
+          - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/compose-postgres
+    
+      db:
+        image: 'postgres:13.1-alpine'
+        ports:
+          - "5432:5432"
+        container_name: db
+        environment:
+          - POSTGRES_USER=compose-postgres
+          - POSTGRES_PASSWORD=compose-postgres
 ```
-
-## Run project by Docker Compose
-
-To run this image we will use below command.
-
-```bash
-    docker-compose up
-```
-
-Everytime when we will use docker compose command to run app, docker will use the existing image and container, to rebuild that we should use below command.
-
-```bash
-    docker-compose up --build
-```
-
-This solution not always work properly 
 
 ## How build and run single image
 

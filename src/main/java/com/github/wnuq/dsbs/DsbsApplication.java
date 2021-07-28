@@ -18,10 +18,13 @@ public class DsbsApplication {
 
     private final Logger logger = LoggerFactory.getLogger(DsbsApplication.class);
 
-    @Autowired
-    private CourseRepository courseRepository;
+    private final CourseRepository courseRepository;
 
-	public static void main(String[] args) {
+    public DsbsApplication(CourseRepository courseRepository) {
+        this.courseRepository = courseRepository;
+    }
+
+    public static void main(String[] args) {
 		SpringApplication.run(DsbsApplication.class, args);
 	}
 
